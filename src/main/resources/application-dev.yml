@@ -1,0 +1,38 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /cell
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3307/d3_cell?useUnicode=true&passwordCharacterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 5
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.d3.cell.entity
+
+#pagehelper:
+#  helperDialect: mariadb
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql
+
+cell:
+  client_id: cell
+  client_secret: cell
+  grant_type: password
+  accessTokenValiditySeconds: 7200 # 有效时间
+  refreshTokenValiditySeconds: 86400 # 有效时间
+
+
+logging:
+  level:
+    org.springframework.web: TRACE
+#    com.d3.cell.mapper: debug
+
+sharePath: E:/WebSite/3DData/

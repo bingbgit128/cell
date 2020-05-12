@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.d3.cell.mapper.DatPacientMapper">
+  <resultMap id="BaseResultMap" type="com.d3.cell.entity.DatPacient">
+    <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="ng_pac_id" jdbcType="BIGINT" property="ngPacId" />
+    <result column="sz_name" jdbcType="VARCHAR" property="szName" />
+    <result column="sz_addr" jdbcType="VARCHAR" property="szAddr" />
+    <result column="nt_gender" jdbcType="INTEGER" property="ntGender" />
+    <result column="nt_age" jdbcType="INTEGER" property="ntAge" />
+    <result column="sz_mobile" jdbcType="VARCHAR" property="szMobile" />
+    <result column="ng_user_id" jdbcType="BIGINT" property="ngUserId" />
+    <result column="ng_dev_id" jdbcType="BIGINT" property="ngDevId" />
+    <result column="ng_ind_doc" jdbcType="BIGINT" property="ngIndDoc" />
+    <result column="nt_row_version" jdbcType="INTEGER" property="ntRowVersion" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.d3.cell.entity.DatPacientWithBLOBs">
+    <result column="tx_comment" jdbcType="LONGVARCHAR" property="txComment" />
+    <result column="tx_epicrisis" jdbcType="LONGVARCHAR" property="txEpicrisis" />
+    <result column="bo_sample" jdbcType="LONGVARBINARY" property="boSample" />
+    <result column="bo_learn" jdbcType="LONGVARBINARY" property="boLearn" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.d3.cell.vo.DatPacientVo">
+    <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="ng_dev_id" jdbcType="BIGINT" property="ngDevId" />
+    <result column="ng_user_id" jdbcType="BIGINT" property="ngUserId" />
+    <result column="sz_name" jdbcType="VARCHAR" property="szName" />
+    <result column="sz_addr" jdbcType="VARCHAR" property="szAddr" />
+    <result column="nt_gender" jdbcType="INTEGER" property="ntGender" />
+    <result column="nt_age" jdbcType="INTEGER" property="ntAge" />
+    <result column="sz_mobile" jdbcType="VARCHAR" property="szMobile" />
+    <result column="tx_epicrisis" jdbcType="VARCHAR" property="txEpicrisis" />
+    <result column="sz_caption" jdbcType="VARCHAR" property="szCaption" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ng_id, ng_pac_id, sz_name, sz_addr, nt_gender, nt_age, sz_mobile, ng_user_id, ng_dev_id, 
+    ng_ind_doc, nt_row_version
+  </sql>
+  <sql id="Blob_Column_List">
+    tx_comment, tx_epicrisis, bo_sample, bo_learn
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dat_pacient_t
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMapVo">
+   		SELECT
+		dp.ng_id as ng_id,
+		dp.ng_dev_id as ng_dev_id,
+		dp.ng_user_id as ng_user_id,
+		dp.sz_name as sz_name,
+		dp.nt_gender as nt_gender,
+		dp.sz_addr as sz_addr,
+		dp.nt_age as nt_age,
+		dp.sz_mobile as sz_mobile,
+		dp.tx_epicrisis as tx_epicrisis,
+		sr.sz_caption as sz_caption
+		FROM dat_pacient_t dp,sys_user_t su,sys_region_t sr
+		WHERE su.nt_row_version > 0 and su.ng_id = dp.ng_user_id and sr.ng_id = su.ng_region_id
+        <if test="devIds != null and devIds != '' ">
+          and dp.ng_dev_id in (#{devIds})
+        </if>
+
+  </select>
+
+  <select id="selectPage" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dat_pacient_t
+    where nt_row_version > 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dat_pacient_t
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.d3.cell.entity.DatPacientWithBLOBs">
+    insert into dat_pacient_t (ng_id, ng_pac_id, sz_name, 
+      sz_addr, nt_gender, nt_age, 
+      sz_mobile, ng_user_id, ng_dev_id, 
+      ng_ind_doc, nt_row_version, tx_comment, 
+      tx_epicrisis, bo_sample, bo_learn
+      )
+    values (#{ngId,jdbcType=BIGINT}, #{ngPacId,jdbcType=BIGINT}, #{szName,jdbcType=VARCHAR}, 
+      #{szAddr,jdbcType=VARCHAR}, #{ntGender,jdbcType=INTEGER}, #{ntAge,jdbcType=INTEGER}, 
+      #{szMobile,jdbcType=VARCHAR}, #{ngUserId,jdbcType=BIGINT}, #{ngDevId,jdbcType=BIGINT}, 
+      #{ngIndDoc,jdbcType=BIGINT}, #{ntRowVersion,jdbcType=INTEGER}, #{txComment,jdbcType=LONGVARCHAR}, 
+      #{txEpicrisis,jdbcType=LONGVARCHAR}, #{boSample,jdbcType=LONGVARBINARY}, #{boLearn,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.d3.cell.entity.DatPacientWithBLOBs">
+    insert into dat_pacient_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ngId != null">
+        ng_id,
+      </if>
+      <if test="ngPacId != null">
+        ng_pac_id,
+      </if>
+      <if test="szName != null">
+        sz_name,
+      </if>
+      <if test="szAddr != null">
+        sz_addr,
+      </if>
+      <if test="ntGender != null">
+        nt_gender,
+      </if>
+      <if test="ntAge != null">
+        nt_age,
+      </if>
+      <if test="szMobile != null">
+        sz_mobile,
+      </if>
+      <if test="ngUserId != null">
+        ng_user_id,
+      </if>
+      <if test="ngDevId != null">
+        ng_dev_id,
+      </if>
+      <if test="ngIndDoc != null">
+        ng_ind_doc,
+      </if>
+      <if test="ntRowVersion != null">
+        nt_row_version,
+      </if>
+      <if test="txComment != null">
+        tx_comment,
+      </if>
+      <if test="txEpicrisis != null">
+        tx_epicrisis,
+      </if>
+      <if test="boSample != null">
+        bo_sample,
+      </if>
+      <if test="boLearn != null">
+        bo_learn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ngId != null">
+        #{ngId,jdbcType=BIGINT},
+      </if>
+      <if test="ngPacId != null">
+        #{ngPacId,jdbcType=BIGINT},
+      </if>
+      <if test="szName != null">
+        #{szName,jdbcType=VARCHAR},
+      </if>
+      <if test="szAddr != null">
+        #{szAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ntGender != null">
+        #{ntGender,jdbcType=INTEGER},
+      </if>
+      <if test="ntAge != null">
+        #{ntAge,jdbcType=INTEGER},
+      </if>
+      <if test="szMobile != null">
+        #{szMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="ngUserId != null">
+        #{ngUserId,jdbcType=BIGINT},
+      </if>
+      <if test="ngDevId != null">
+        #{ngDevId,jdbcType=BIGINT},
+      </if>
+      <if test="ngIndDoc != null">
+        #{ngIndDoc,jdbcType=BIGINT},
+      </if>
+      <if test="ntRowVersion != null">
+        #{ntRowVersion,jdbcType=INTEGER},
+      </if>
+      <if test="txComment != null">
+        #{txComment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="txEpicrisis != null">
+        #{txEpicrisis,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="boSample != null">
+        #{boSample,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="boLearn != null">
+        #{boLearn,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.d3.cell.entity.DatPacientWithBLOBs">
+    update dat_pacient_t
+    <set>
+      <if test="ngPacId != null">
+        ng_pac_id = #{ngPacId,jdbcType=BIGINT},
+      </if>
+      <if test="szName != null">
+        sz_name = #{szName,jdbcType=VARCHAR},
+      </if>
+      <if test="szAddr != null">
+        sz_addr = #{szAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ntGender != null">
+        nt_gender = #{ntGender,jdbcType=INTEGER},
+      </if>
+      <if test="ntAge != null">
+        nt_age = #{ntAge,jdbcType=INTEGER},
+      </if>
+      <if test="szMobile != null">
+        sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="ngUserId != null">
+        ng_user_id = #{ngUserId,jdbcType=BIGINT},
+      </if>
+      <if test="ngDevId != null">
+        ng_dev_id = #{ngDevId,jdbcType=BIGINT},
+      </if>
+      <if test="ngIndDoc != null">
+        ng_ind_doc = #{ngIndDoc,jdbcType=BIGINT},
+      </if>
+      <if test="ntRowVersion != null">
+        nt_row_version = #{ntRowVersion,jdbcType=INTEGER},
+      </if>
+      <if test="txComment != null">
+        tx_comment = #{txComment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="txEpicrisis != null">
+        tx_epicrisis = #{txEpicrisis,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="boSample != null">
+        bo_sample = #{boSample,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="boLearn != null">
+        bo_learn = #{boLearn,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.d3.cell.entity.DatPacientWithBLOBs">
+    update dat_pacient_t
+    set ng_pac_id = #{ngPacId,jdbcType=BIGINT},
+      sz_name = #{szName,jdbcType=VARCHAR},
+      sz_addr = #{szAddr,jdbcType=VARCHAR},
+      nt_gender = #{ntGender,jdbcType=INTEGER},
+      nt_age = #{ntAge,jdbcType=INTEGER},
+      sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      ng_user_id = #{ngUserId,jdbcType=BIGINT},
+      ng_dev_id = #{ngDevId,jdbcType=BIGINT},
+      ng_ind_doc = #{ngIndDoc,jdbcType=BIGINT},
+      nt_row_version = #{ntRowVersion,jdbcType=INTEGER},
+      tx_comment = #{txComment,jdbcType=LONGVARCHAR},
+      tx_epicrisis = #{txEpicrisis,jdbcType=LONGVARCHAR},
+      bo_sample = #{boSample,jdbcType=LONGVARBINARY},
+      bo_learn = #{boLearn,jdbcType=LONGVARBINARY}
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.d3.cell.entity.DatPacient">
+    update dat_pacient_t
+    set ng_pac_id = #{ngPacId,jdbcType=BIGINT},
+      sz_name = #{szName,jdbcType=VARCHAR},
+      sz_addr = #{szAddr,jdbcType=VARCHAR},
+      nt_gender = #{ntGender,jdbcType=INTEGER},
+      nt_age = #{ntAge,jdbcType=INTEGER},
+      sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      ng_user_id = #{ngUserId,jdbcType=BIGINT},
+      ng_dev_id = #{ngDevId,jdbcType=BIGINT},
+      ng_ind_doc = #{ngIndDoc,jdbcType=BIGINT},
+      nt_row_version = #{ntRowVersion,jdbcType=INTEGER}
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+
+</mapper>

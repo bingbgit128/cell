@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.d3.cell.mapper.DatIssledMapper">
+  <resultMap id="BaseResultMap" type="com.d3.cell.entity.DatIssled">
+    <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="ng_pacient_id" jdbcType="BIGINT" property="ngPacientId" />
+    <result column="ng_ind_issl" jdbcType="BIGINT" property="ngIndIssl" />
+    <result column="ng_ind_pac" jdbcType="BIGINT" property="ngIndPac" />
+    <result column="dt_date" jdbcType="DATE" property="dtDate" />
+    <result column="tm_time" jdbcType="TIME" property="tmTime" />
+    <result column="sz_name_isl" jdbcType="VARCHAR" property="szNameIsl" />
+    <result column="sz_fname" jdbcType="VARCHAR" property="szFname" />
+    <result column="sz_store_file" jdbcType="VARCHAR" property="szStoreFile" />
+    <result column="ng_ind_org" jdbcType="BIGINT" property="ngIndOrg" />
+    <result column="de_nspin" jdbcType="DOUBLE" property="deNspin" />
+    <result column="de_sspin" jdbcType="DOUBLE" property="deSspin" />
+    <result column="de_nq" jdbcType="DOUBLE" property="deNq" />
+    <result column="de_sq" jdbcType="DOUBLE" property="deSq" />
+    <result column="ng_person_free" jdbcType="INTEGER" property="ngPersonFree" />
+    <result column="nt_trimode" jdbcType="INTEGER" property="ntTrimode" />
+    <result column="nt_vegeto_ind" jdbcType="INTEGER" property="ntVegetoInd" />
+    <result column="nt_medicine" jdbcType="INTEGER" property="ntMedicine" />
+    <result column="nt_row_version" jdbcType="INTEGER" property="ntRowVersion" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.d3.cell.entity.DatIssledWithBLOBs">
+    <result column="bo_graph1" jdbcType="LONGVARBINARY" property="boGraph1" />
+    <result column="bo_graph2" jdbcType="LONGVARBINARY" property="boGraph2" />
+    <result column="bo_data" jdbcType="LONGVARBINARY" property="boData" />
+    <result column="tx_comment" jdbcType="LONGVARCHAR" property="txComment" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.d3.cell.vo.DatIssledVo">
+    <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="nt_pacient_id" jdbcType="INTEGER" property="ngPacientId" />
+    <result column="sz_name" jdbcType="VARCHAR" property="szName" />
+    <result column="dt_date" jdbcType="VARCHAR" property="dtDate" />
+    <result column="tm_time" jdbcType="VARCHAR" property="tmTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ng_id, ng_pacient_id, ng_ind_issl, ng_ind_pac, dt_date, tm_time, sz_name_isl, sz_fname, 
+    sz_store_file, ng_ind_org, de_nspin, de_sspin, de_nq, de_sq, ng_person_free, nt_trimode, 
+    nt_vegeto_ind, nt_medicine, nt_row_version
+  </sql>
+  <sql id="Blob_Column_List">
+    bo_graph1, bo_graph2, bo_data, tx_comment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dat_issled_t
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </select>
+  <select id="selectPage" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dat_issled_t where nt_row_version > 0
+  </select>
+
+  <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMapVo">
+    SELECT
+    a1.ng_id as ng_id,
+    a1.ng_pacient_id as ng_pacient_id,
+    a1.dt_date as dt_date,
+    a1.tm_time as tm_time,
+    a2.sz_name as sz_name
+    from dat_issled_t a1, sys_image_t a2
+		WHERE  a2.ng_id = a1.ng_ind_org
+		and a1.nt_row_version > 0
+    <if test="ngPacientIds !=null and ngPacientIds !='' ">
+      and a1.ng_pacient_id in (#{ngPacientIds})
+    </if>
+  </select>
+
+  <!--<select id="selectPageByCondition" parameterType="java.lang.Long" resultMap="BaseResultMapVo">-->
+    <!--SELECT-->
+    <!--a1.sz_name,-->
+    <!--a1.ng_user_id,-->
+    <!--b.*-->
+    <!--FROM-->
+    <!--dat_pacient_t a1,-->
+    <!--(-->
+    <!--SELECT-->
+    <!--di.ng_id,-->
+    <!--di.ng_pacient_id,-->
+    <!--di.bo_data,-->
+    <!--di.dt_date,-->
+    <!--si.sz_name as img_name,-->
+    <!--sg.sz_name as sg_name,-->
+    <!--d3.sz_sn,-->
+    <!--d3.tx_epicrisis as tx_epicrisis-->
+    <!--FROM-->
+    <!--dat_issled_t AS di,-->
+    <!--sys_image_t AS si,-->
+    <!--sys_grp_t as sg,-->
+    <!--(-->
+    <!--SELECT d2.ng_id as pac_id ,d1.ng_id,d1.sz_sn, d2.tx_epicrisis FROM dev_device_t d1,dat_pacient_t d2-->
+    <!--WHERE d2.ng_dev_id = d1.ng_id-->
+
+    <!--) as d3-->
+    <!--WHERE di.ng_ind_org = si.ng_id and si.ng_grp_id = sg.ng_id and d3.pac_id = di.ng_pacient_id-->
+    <!--) b-->
+    <!--WHERE-->
+    <!--b.ng_pacient_id = a1.ng_id-->
+    <!--<if test="sn !=null and sn !='' ">-->
+     <!--and b.sz_sn = #{sn,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="startTime !=null and startTime !='' ">-->
+      <!--<![CDATA[ and b.dt_date  >=  str_to_date(#{startTime},'%Y-%m-%d %H:%i:%s')   ]]>-->
+    <!--</if>-->
+    <!--<if test="endTime !=null and endTime !='' ">-->
+      <!--<![CDATA[ and b.dt_date  <  str_to_date(#{endTime},'%Y-%m-%d %H:%i:%s')   ]]>-->
+    <!--</if>-->
+  <!--</select>-->
+
+
+</mapper>

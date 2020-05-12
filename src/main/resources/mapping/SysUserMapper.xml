@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.d3.cell.mapper.SysUserMapper">
+  <resultMap id="BaseResultMap" type="com.d3.cell.entity.SysUser">
+    <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="sz_username" jdbcType="VARCHAR" property="szUsername" />
+    <result column="sz_password" jdbcType="VARCHAR" property="szPassword" />
+    <result column="sz_name" jdbcType="VARCHAR" property="szName" />
+    <result column="ng_region_id" jdbcType="BIGINT" property="ngRegionId" />
+    <result column="ng_group_id" jdbcType="BIGINT" property="ngGroupId" />
+    <result column="sz_mobile" jdbcType="VARCHAR" property="szMobile" />
+    <result column="nt_kind" jdbcType="INTEGER" property="ntKind" />
+    <result column="nt_state" jdbcType="INTEGER" property="ntState" />
+    <result column="nt_dev_count" jdbcType="INTEGER" property="ntDevCount" />
+    <result column="nt_row_version" jdbcType="INTEGER" property="ntRowVersion" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.d3.cell.entity.SysUser">
+    <result column="tx_remark" jdbcType="LONGVARCHAR" property="txRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ng_id, sz_username, sz_password, sz_name, ng_region_id, ng_group_id, sz_mobile, nt_kind, 
+    nt_state, nt_dev_count, nt_row_version
+  </sql>
+  <sql id="Blob_Column_List">
+    tx_remark
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user_t
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </select>
+  <select id="selectPage" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user_t where nt_row_version > 0
+  </select>
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from sys_user_t
+        where sz_username = #{userName,jdbcType=VARCHAR}
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_user_t
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.d3.cell.entity.SysUser">
+    insert into sys_user_t (ng_id, sz_username, sz_password, 
+      sz_name, ng_region_id, ng_group_id, 
+      sz_mobile, nt_kind, nt_state, 
+      nt_dev_count, nt_row_version, tx_remark
+      )
+    values (#{ngId,jdbcType=BIGINT}, #{szUsername,jdbcType=VARCHAR}, #{szPassword,jdbcType=VARCHAR}, 
+      #{szName,jdbcType=VARCHAR}, #{ngRegionId,jdbcType=BIGINT}, #{ngGroupId,jdbcType=BIGINT}, 
+      #{szMobile,jdbcType=VARCHAR}, #{ntKind,jdbcType=INTEGER}, #{ntState,jdbcType=INTEGER}, 
+      #{ntDevCount,jdbcType=INTEGER}, #{ntRowVersion,jdbcType=INTEGER}, #{txRemark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.d3.cell.entity.SysUser">
+    insert into sys_user_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ngId != null">
+        ng_id,
+      </if>
+      <if test="szUsername != null">
+        sz_username,
+      </if>
+      <if test="szPassword != null">
+        sz_password,
+      </if>
+      <if test="szName != null">
+        sz_name,
+      </if>
+      <if test="ngRegionId != null">
+        ng_region_id,
+      </if>
+      <if test="ngGroupId != null">
+        ng_group_id,
+      </if>
+      <if test="szMobile != null">
+        sz_mobile,
+      </if>
+      <if test="ntKind != null">
+        nt_kind,
+      </if>
+      <if test="ntState != null">
+        nt_state,
+      </if>
+      <if test="ntDevCount != null">
+        nt_dev_count,
+      </if>
+      <if test="ntRowVersion != null">
+        nt_row_version,
+      </if>
+      <if test="txRemark != null">
+        tx_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ngId != null">
+        #{ngId,jdbcType=BIGINT},
+      </if>
+      <if test="szUsername != null">
+        #{szUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="szPassword != null">
+        #{szPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="szName != null">
+        #{szName,jdbcType=VARCHAR},
+      </if>
+      <if test="ngRegionId != null">
+        #{ngRegionId,jdbcType=BIGINT},
+      </if>
+      <if test="ngGroupId != null">
+        #{ngGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="szMobile != null">
+        #{szMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="ntKind != null">
+        #{ntKind,jdbcType=INTEGER},
+      </if>
+      <if test="ntState != null">
+        #{ntState,jdbcType=INTEGER},
+      </if>
+      <if test="ntDevCount != null">
+        #{ntDevCount,jdbcType=INTEGER},
+      </if>
+      <if test="ntRowVersion != null">
+        #{ntRowVersion,jdbcType=INTEGER},
+      </if>
+      <if test="txRemark != null">
+        #{txRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.d3.cell.entity.SysUser">
+    update sys_user_t
+    <set>
+      <if test="szUsername != null">
+        sz_username = #{szUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="szPassword != null">
+        sz_password = #{szPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="szName != null">
+        sz_name = #{szName,jdbcType=VARCHAR},
+      </if>
+      <if test="ngRegionId != null">
+        ng_region_id = #{ngRegionId,jdbcType=BIGINT},
+      </if>
+      <if test="ngGroupId != null">
+        ng_group_id = #{ngGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="szMobile != null">
+        sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="ntKind != null">
+        nt_kind = #{ntKind,jdbcType=INTEGER},
+      </if>
+      <if test="ntState != null">
+        nt_state = #{ntState,jdbcType=INTEGER},
+      </if>
+      <if test="ntDevCount != null">
+        nt_dev_count = #{ntDevCount,jdbcType=INTEGER},
+      </if>
+      <if test="ntRowVersion != null">
+        nt_row_version = #{ntRowVersion,jdbcType=INTEGER},
+      </if>
+      <if test="txRemark != null">
+        tx_remark = #{txRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.d3.cell.entity.SysUser">
+    update sys_user_t
+    set sz_username = #{szUsername,jdbcType=VARCHAR},
+      sz_password = #{szPassword,jdbcType=VARCHAR},
+      sz_name = #{szName,jdbcType=VARCHAR},
+      ng_region_id = #{ngRegionId,jdbcType=BIGINT},
+      ng_group_id = #{ngGroupId,jdbcType=BIGINT},
+      sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      nt_kind = #{ntKind,jdbcType=INTEGER},
+      nt_state = #{ntState,jdbcType=INTEGER},
+      nt_dev_count = #{ntDevCount,jdbcType=INTEGER},
+      nt_row_version = #{ntRowVersion,jdbcType=INTEGER},
+      tx_remark = #{txRemark,jdbcType=LONGVARCHAR}
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.d3.cell.entity.SysUser">
+    update sys_user_t
+    set sz_username = #{szUsername,jdbcType=VARCHAR},
+      sz_password = #{szPassword,jdbcType=VARCHAR},
+      sz_name = #{szName,jdbcType=VARCHAR},
+      ng_region_id = #{ngRegionId,jdbcType=BIGINT},
+      ng_group_id = #{ngGroupId,jdbcType=BIGINT},
+      sz_mobile = #{szMobile,jdbcType=VARCHAR},
+      nt_kind = #{ntKind,jdbcType=INTEGER},
+      nt_state = #{ntState,jdbcType=INTEGER},
+      nt_dev_count = #{ntDevCount,jdbcType=INTEGER},
+      nt_row_version = #{ntRowVersion,jdbcType=INTEGER}
+    where ng_id = #{ngId,jdbcType=BIGINT}
+  </update>
+
+</mapper>
