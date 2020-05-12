@@ -16,12 +16,6 @@ mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
   type-aliases-package: com.d3.cell.entity
 
-#pagehelper:
-#  helperDialect: mariadb
-#  reasonable: true
-#  supportMethodsArguments: true
-#  params: count=countSql
-
 cell:
   client_id: cell
   client_secret: cell
