@@ -71,7 +71,7 @@ public class DevDeviceServiceImpl implements DevDeviceService {
             deviceVo.setSzSn(d.getSzSn());
         }
         String sharePath = env.getProperty("sharePath");
-        String contextPath  = "http://"+ IPUtil.getIpAddr(request) + ":" + request.getServerPort() + request.getContextPath();
+        String contextPath  = "http://"+ request.getLocalAddr() + ":" + request.getServerPort() + request.getContextPath();
         logger.info("=="+contextPath);
         String ids = buffer.substring(1);
         List<DatPacientVo> datPacientVoList = datPacientService.selectByCondition(ids);
