@@ -16,5 +16,5 @@ public interface DevDeviceService {
      * @param sn 设备号
      * @return
      */
-    List<DevDeviceVo> selectByCondition(String sn, HttpServletRequest request);
+    List<DevDeviceVo> selectByCondition(String sn, String startTime, String endTime, HttpServletRequest request);
 }

@@ -57,7 +57,7 @@ public class DevDeviceServiceImpl implements DevDeviceService {
     }
 
     @Override
-    public List<DevDeviceVo> selectByCondition(String sn,  HttpServletRequest request) {
+    public List<DevDeviceVo> selectByCondition(String sn,  String startTime, String endTime, HttpServletRequest request) {
         List<DevDevice> list = devDeviceMapper.selectByCondition(sn);
         List<DevDeviceVo> devDeviceVos = new ArrayList<>();
         List<Map<String, String>> urlPath = new ArrayList<>();
@@ -78,7 +78,7 @@ public class DevDeviceServiceImpl implements DevDeviceService {
         buffer.setLength(0);
         List<DatIssledVo> datIssledVos = new ArrayList<>();
         for (DatPacientVo d : datPacientVoList) {
-            datIssledVos = datIssledService.selectByCondition(String.valueOf(d.getNgId()), "", "");
+            datIssledVos = datIssledService.selectByCondition(String.valueOf(d.getNgId()), startTime, endTime);
             d.setIssList(datIssledVos);
             String path = snPath + "/img/" + d.getSzName();
             d.setImgList(mapList(contextPath,sharePath, path));

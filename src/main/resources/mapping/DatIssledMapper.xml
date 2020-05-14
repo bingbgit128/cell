@@ -59,7 +59,7 @@
     from dat_issled_t where nt_row_version > 0
   </select>
 
-  <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMapVo">
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="BaseResultMapVo">
     SELECT
     a1.ng_id as ng_id,
     a1.ng_pacient_id as ng_pacient_id,
@@ -71,6 +71,12 @@
 		and a1.nt_row_version > 0
     <if test="ngPacientIds !=null and ngPacientIds !='' ">
       and a1.ng_pacient_id in (#{ngPacientIds})
+    </if>
+    <if test="startTime !=null and startTime !='' ">
+    <![CDATA[ and a1.dt_date  >  str_to_date(#{startTime},'%Y-%m-%d %H:%i:%s')   ]]>
+    </if>
+    <if test="endTime !=null and endTime !='' ">
+    <![CDATA[ and a1.dt_date  <=  str_to_date(#{endTime},'%Y-%m-%d %H:%i:%s')   ]]>
     </if>
   </select>
 
