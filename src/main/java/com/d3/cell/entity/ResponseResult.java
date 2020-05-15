@@ -5,7 +5,7 @@ import com.d3.cell.enums.ResultCode;
 public class ResponseResult<T> {
     private Integer code;
     private Boolean success;
-    private String msg;
+    private String msg = "操作成功";
     private Object data;
     private Object ext;
 
@@ -22,14 +22,14 @@ public class ResponseResult<T> {
     }
 
     public static <T> ResponseResult<T> makeOKResult(Object data){
-        return  new ResponseResult<T>(200,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
     }
     public static <T> ResponseResult<T> makeOKResult(String msg,Object data){
-        return  new ResponseResult<T>(200,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
     }
 
     public static <T> ResponseResult<T> makeOKResult(String msg,Object data, Object ext){
-        return  new ResponseResult<T>(200,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
     }
 
     public static <T> ResponseResult<T> makeERRResult(ResultCode resultCode,String msg){

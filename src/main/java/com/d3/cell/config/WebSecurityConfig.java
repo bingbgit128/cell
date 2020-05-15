@@ -31,8 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers().anyRequest()
                 .and().authorizeRequests()
-                .antMatchers("/oauth/**","/oauth2/**").permitAll();
+                .antMatchers("/oauth/**","/oauth2/**").permitAll()
+                .and().cors();
+
     }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
 
