@@ -50,8 +50,8 @@ public class DevDeviceServiceImpl implements DevDeviceService {
         int pageNum = page.getPageNum();
         int pageSize = page.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
-        List<DevDeviceWithBLOBs> deviceWithBLOBs = devDeviceMapper.selectPage();
-        PageInfo<DevDeviceWithBLOBs> pageInfo = new PageInfo<DevDeviceWithBLOBs>(deviceWithBLOBs);
+        List<Map<String,Object>> devices= devDeviceMapper.selectPage();
+        PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(devices);
         PageResult pageResult = PageUtils.getPageResult(page, pageInfo);
         return pageResult;
     }
@@ -81,7 +81,9 @@ public class DevDeviceServiceImpl implements DevDeviceService {
             datIssledVos = datIssledService.selectByCondition(String.valueOf(d.getNgId()), startTime, endTime);
             d.setIssList(datIssledVos);
             String path = snPath + "/img/" + d.getSzName();
-            d.setImgList(mapList(contextPath,sharePath, path));
+            if(!StringUtils.isEmpty(d.getSzName())) {
+                d.setImgList(mapList(contextPath,sharePath, path));
+            }
         }
         deviceVo.setList(datPacientVoList);
         devDeviceVos.add(deviceVo);

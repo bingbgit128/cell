@@ -17,6 +17,10 @@
     <result column="tx_admin_remark" jdbcType="LONGVARCHAR" property="txAdminRemark" />
     <result column="sz_sales_remark" jdbcType="LONGVARCHAR" property="szSalesRemark" />
   </resultMap>
+  <resultMap id="BaseResultMapSimple" type="com.d3.cell.vo.DevDeviceSimpleVo">
+  <id column="ng_id" jdbcType="BIGINT" property="ngId" />
+    <result column="sz_sn" jdbcType="VARCHAR" property="szSn" />
+  </resultMap>
   <sql id="Base_Column_List">
     ng_id, sz_sn, ng_user_id, ts_placing, nt_sync, sz_sales_man, sz_sales_mobile, ng_last_pac_id, 
     ng_last_issled_id, nt_row_version
@@ -24,7 +28,7 @@
   <sql id="Blob_Column_List">
     tx_admin_remark, sz_sales_remark
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -32,11 +36,8 @@
     from dev_device_t
     where ng_id = #{ngId,jdbcType=BIGINT}
   </select>
-  <select id="selectPage" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+  <select id="selectPage" parameterType="java.lang.String" resultMap="BaseResultMapSimple">
+    select  ng_id, sz_sn
     from dev_device_t where nt_row_version > 0
 
   </select>

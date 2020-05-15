@@ -30,7 +30,7 @@ public class TokenController {
     @ResponseBody
     public ResponseResult<List> loadUsers(@RequestParam String userName,@RequestParam String password){
         Map<String,Object> map = new HashMap<>();
-        map.put("userName",userName);
+        map.put("username",userName);
         map.put("password",password);
         return  tokenService.oauthToken(map);
     };

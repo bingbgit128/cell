@@ -6,6 +6,7 @@ import com.d3.cell.entity.SysUser;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface DevDeviceMapper {
@@ -18,7 +19,7 @@ public interface DevDeviceMapper {
 
     DevDeviceWithBLOBs selectByPrimaryKey(Long ngId);
 
-    List<DevDeviceWithBLOBs> selectPage();
+    List<Map<String,Object>> selectPage();
     List<DevDevice> selectByCondition(String sn);
 
     int updateByPrimaryKeySelective(DevDeviceWithBLOBs record);

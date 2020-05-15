@@ -22,14 +22,14 @@ public class ResponseResult<T> {
     }
 
     public static <T> ResponseResult<T> makeOKResult(Object data){
-        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"操作成功",data,"",true);
     }
     public static <T> ResponseResult<T> makeOKResult(String msg,Object data){
-        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,msg,data,"",true);
     }
 
     public static <T> ResponseResult<T> makeOKResult(String msg,Object data, Object ext){
-        return  new ResponseResult<T>(ResultCode.SUCCESS.code,"",data,"",true);
+        return  new ResponseResult<T>(ResultCode.SUCCESS.code,msg,data,"",true);
     }
 
     public static <T> ResponseResult<T> makeERRResult(ResultCode resultCode,String msg){
