@@ -28,11 +28,7 @@ cell:
   grant_type: password
   accessTokenValiditySeconds: 7200 # 有效时间
   refreshTokenValiditySeconds: 86400 # 有效时间
-  oauthUrl: http://localhost:8082/oauth/token
+  oauthUrl: http://localhost:8022/oauth/token
 
-logging:
-  level:
-    org.springframework.web: TRACE
-#    com.d3.cell.mapper: debug
 
 sharePath: E:/WebSite/3DData/

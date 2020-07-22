@@ -32,7 +32,9 @@ public class DevDeviceController extends BaseController{
     @ResponseBody
     public ResponseResult getAll(HttpServletRequest request){
         String  pageNum = request.getParameter("pageNum");
+         pageNum = (StringUtils.isEmpty(pageNum)?"1":pageNum);
         String  pageSize = request.getParameter("pageSize");
+        pageSize = (StringUtils.isEmpty(pageSize)?"10":pageSize);
         PageRequest page = new PageRequest();
         page.setPageNum(Integer.valueOf(pageNum));
         page.setPageSize(Integer.valueOf(pageSize));

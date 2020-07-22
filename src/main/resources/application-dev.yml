@@ -25,9 +25,4 @@ cell:
   oauthUrl: http://localhost:8081/cell/oauth/token
 
 
-logging:
-  level:
-    org.springframework.web: TRACE
-#    com.d3.cell.mapper: debug
-
 sharePath: E:/WebSite/3DData/
