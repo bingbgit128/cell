@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/flag")
+@RequestMapping("api/cache")
 public class CacheController {
 
     @Autowired

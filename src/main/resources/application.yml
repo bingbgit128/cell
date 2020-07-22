@@ -8,3 +8,12 @@ logging:
     org.springframework.web: TRACE
   config: classpath:logback-spring.xml
 
+zdy:
+  cache:
+    # 大小100m
+    initialCapacity: 100
+    # 30天
+    time: 30
+    # 3000条
+    maximumSize: 3000
+
