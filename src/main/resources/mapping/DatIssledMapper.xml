@@ -51,6 +51,17 @@
     from dat_issled_t
     where ng_id = #{ngId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectNgIds" parameterType="java.lang.String" resultType="java.lang.String">
+    select ng_id from dat_issled_t where 1=1
+     and ng_pacient_id in
+    <foreach collection="ngIds" item="ngId" open="(" separator="," close=")" >
+      #{ngId}
+    </foreach>
+    <if test="dateTime !=null and dateTime !='' ">
+      <![CDATA[ and dt_date = str_to_date(#{dateTime},'%Y-%m-%d %H:%i:%s')   ]]>
+    </if>
+  </select>
   <select id="selectPage" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
@@ -120,6 +131,21 @@
       <!--<![CDATA[ and b.dt_date  <  str_to_date(#{endTime},'%Y-%m-%d %H:%i:%s')   ]]>-->
     <!--</if>-->
   <!--</select>-->
+  <delete id="deleteDatIssledByPacientId" parameterType="String" >
+    delete from dat_issled_t where ng_pacient_id  in
+    <foreach collection="pacientIds" item="ngId" open="(" separator="," close=")">
+      #{ngId}
+    </foreach>
+  </delete>
 
+  <delete id="deleteDatIssled" parameterType="String" >
+    delete from dat_issled_t where ng_id  in
+    <foreach collection="ngIds" item="ngId" open="(" separator="," close=")">
+      #{ngId}
+    </foreach>
+    <if test="dateTime !=null and dateTime !='' ">
+      <![CDATA[ and dt_date = str_to_date(#{dateTime},'%Y-%m-%d %H:%i:%s')   ]]>
+    </if>
+  </delete>
 
 </mapper>

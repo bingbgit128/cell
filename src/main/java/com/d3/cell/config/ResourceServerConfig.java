@@ -10,7 +10,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/oauth/**","/oauth2/**","/resource/**").permitAll()
+                .antMatchers(
+                        "/oauth/**",
+                        "/oauth2/**",
+                        "/resource/**",
+                        "/index/**",
+                        "/js/**",
+                        "/api/datIssled/deleteDatlssledByConditions/**"
+                ).permitAll()
                 .anyRequest()
                 .authenticated();
     }

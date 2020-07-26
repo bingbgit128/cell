@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class DatPacientServiceImpl implements DatPacientService {
 
@@ -22,5 +24,11 @@ public class DatPacientServiceImpl implements DatPacientService {
 
         // 查询所有数据
         return datPacientMapper.selectByCondition(ngIds);
+    }
+
+    @Override
+    public List<String> selectIdsBySn(String sn) {
+
+        return   datPacientMapper.selectIdsBySn(sn);
     }
 }

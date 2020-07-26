@@ -1,5 +1,6 @@
 package com.d3.cell.service;
 
+import com.d3.cell.entity.ResponseResult;
 import com.d3.cell.util.PageRequest;
 import com.d3.cell.util.PageResult;
 import com.d3.cell.vo.DatIssledVo;
@@ -27,4 +28,9 @@ public interface DatIssledService {
      * @return
      */
     List<DatIssledVo> selectByCondition(String pacientIds, String startTime, String endTime);
+
+    /**
+     *  删除检测记录信息 检测者信息 删除 设备登记信息
+     */
+   public ResponseResult deleteByConditions(String sn, String dateTime);
 }

@@ -1,12 +1,15 @@
 spring:
   profiles:
     active: dev
+  thymeleaf:
+    cache: false
 #    active: prod
 
 logging:
   level:
     org.springframework.web: TRACE
   config: classpath:logback-spring.xml
+
 
 zdy:
   cache:

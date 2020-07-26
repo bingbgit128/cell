@@ -7,6 +7,7 @@ import com.d3.cell.vo.DevDeviceVo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 public interface DevDeviceService {
     PageResult selectPage(PageRequest page);
@@ -17,4 +18,7 @@ public interface DevDeviceService {
      * @return
      */
     List<DevDeviceVo> selectByCondition(String sn, String startTime, String endTime, HttpServletRequest request);
+
+
+
 }

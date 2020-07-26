@@ -47,6 +47,14 @@
     from dat_pacient_t
     where ng_id = #{ngId,jdbcType=BIGINT}
   </select>
+  <!--获取id集合-->
+  <select id="selectIdsBySn" parameterType="java.lang.String" resultType="java.lang.String">
+    select ng_id
+    from dat_pacient_t
+    where ng_dev_id in (
+      select ng_id from dev_device_t where sz_sn = #{sn}
+     )
+  </select>
 
   <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMapVo">
    		SELECT
@@ -259,7 +267,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.d3.cell.entity.DatPacient">
     update dat_pacient_t
-    set ng_pac_id = #{ngPacId,jdbcType=BIGINT},
+    set ng_pac_id = #{ngPacId,jdbcType=BIGINT},selectIdsBySn
       sz_name = #{szName,jdbcType=VARCHAR},
       sz_addr = #{szAddr,jdbcType=VARCHAR},
       nt_gender = #{ntGender,jdbcType=INTEGER},
@@ -271,5 +279,13 @@
       nt_row_version = #{ntRowVersion,jdbcType=INTEGER}
     where ng_id = #{ngId,jdbcType=BIGINT}
   </update>
+
+  <!-- 删除检测者信息-->
+  <delete id="deleteDatPacient" parameterType="String">
+      delete from dat_pacient_t where ng_id  in
+        <foreach collection="ngIds" item="ngId" open="(" separator="," close=")">
+          #{ngId}
+        </foreach>
+  </delete>
 
 </mapper>

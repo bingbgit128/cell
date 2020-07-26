@@ -36,4 +36,10 @@ public interface DatIssledMapper {
     int updateByPrimaryKeyWithBLOBs(DatIssledWithBLOBs record);
 
     int updateByPrimaryKey(DatIssled record);
+
+    List<String> selectNgIds(@Param(value="ngIds") String[] ngIds, @Param(value="dateTime") String dateTime);
+
+    void deleteDatIssled(@Param(value="ngIds") String[] ngIds, @Param(value="dateTime") String dateTime);
+    void deleteDatIssledByPacientId(@Param(value="pacientIds") String[] pacientIds);
+
 }

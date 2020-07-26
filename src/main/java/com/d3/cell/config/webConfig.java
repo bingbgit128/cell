@@ -4,10 +4,7 @@ import com.d3.cell.interceptors.WebInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class webConfig implements WebMvcConfigurer {
@@ -18,6 +15,11 @@ public class webConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 拦截所有请求
         registry.addInterceptor(new WebInterceptor()).addPathPatterns("/**");
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/index").setViewName("pages/index");
     }
 
     @Override

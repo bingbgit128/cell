@@ -3,6 +3,7 @@ package com.d3.cell.mapper;
 import com.d3.cell.entity.DevDevice;
 import com.d3.cell.entity.DevDeviceWithBLOBs;
 import com.d3.cell.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,4 +28,10 @@ public interface DevDeviceMapper {
     int updateByPrimaryKeyWithBLOBs(DevDeviceWithBLOBs record);
 
     int updateByPrimaryKey(DevDevice record);
+
+    /**
+     * 删除设备
+     * @param sn
+     */
+    void deleteDevDevService(@Param("sn") String sn);
 }

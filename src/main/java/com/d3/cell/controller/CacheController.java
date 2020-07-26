@@ -66,6 +66,9 @@ public class CacheController {
         if(StringUtils.isEmpty(flag)) {
             return ResponseResult.makeERRResult(ResultCode.FAIL,"请传入标识符");
         }
+        for(int i=0; i<3000;i++) {
+            cacheService.updateCache(sn+"_"+i,flag);
+        }
         return ResponseResult.makeOKResult(cacheService.updateCache(sn,flag));
     }
 

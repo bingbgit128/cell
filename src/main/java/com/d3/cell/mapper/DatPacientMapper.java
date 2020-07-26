@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 @Repository
 public interface DatPacientMapper {
     int deleteByPrimaryKey(Long ngId);
@@ -24,4 +26,8 @@ public interface DatPacientMapper {
     int updateByPrimaryKeyWithBLOBs(DatPacientWithBLOBs record);
 
     int updateByPrimaryKey(DatPacient record);
+
+    List<String> selectIdsBySn(@Param(value="sn") String sn);
+
+    void deleteDatPacient(@Param(value="ngIds") String[] ngIds);
 }

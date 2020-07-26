@@ -212,5 +212,8 @@
       nt_row_version = #{ntRowVersion,jdbcType=INTEGER}
     where ng_id = #{ngId,jdbcType=BIGINT}
   </update>
+    <delete id="deleteDevDevService" parameterType="String" >
+        delete from dev_device_t where sz_sn  = #{sn}
+    </delete>
 
 </mapper>
